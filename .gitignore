@@ -1,0 +1,33 @@
+# Gradle
+.gradle/
+build/
+gradle-app.setting
+.gradletasknamecache
+
+# RetroFuturaGradle / forgegradle caches
+run/
+runs/
+.minecraft/
+
+# IDE
+.idea/
+*.iml
+*.iws
+*.ipr
+.vscode/
+.classpath
+.project
+.settings/
+out/
+bin/
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Local properties 
+local.properties
+gradle-local.properties
+
+# Third-party mod jars used as compile-time deps
+libs/*.jar

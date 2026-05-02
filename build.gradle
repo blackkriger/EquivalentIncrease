@@ -1,0 +1,48 @@
+plugins {
+    id 'java'
+    id 'com.gtnewhorizons.retrofuturagradle' version '1.4.0'
+}
+
+group = 'com.blackkriger'
+version = '1.0'
+archivesBaseName = 'EquivalentIncrease'
+
+java {
+    toolchain {
+        languageVersion = JavaLanguageVersion.of(8)
+    }
+}
+
+minecraft {
+    mcVersion = '1.7.10'
+}
+
+repositories {
+    mavenCentral()
+    maven {
+        name = 'GTNH Maven'
+        url = 'https://nexus.gtnewhorizons.com/repository/public/'
+    }
+}
+
+dependencies {
+    // Mod dependencies live in libs/ as built (SRG-named) jars. RFG's `deobf`
+    // helper translates them to MCP-named at compile time so source can call
+    // ItemEMCBook / TileEMCCrafterBase / ProjectEAPI by their dev names.
+    // The output jar gets reobfuscated back to SRG by the `reobfJar` task that
+    // RFG wires into the standard `build` lifecycle.
+    compileOnly rfg.deobf(files('libs/EquivalentEnergistics-1.7.10-0.8.3.jar'))
+    compileOnly rfg.deobf(files('libs/FMProjectE-2.2.0.jar'))
+    // AE2 and Waila built from source (rv3-beta-922-GTNH, waila-1.19.24); -dev.jar is MCP-mapped, no rfg.deobf needed.
+    compileOnly files('libs/appliedenergistics2-rv3-beta-922-GTNH-dev.jar')
+    compileOnly files('libs/Waila-1.19.24-dev.jar')
+}
+
+jar {
+    manifest {
+        attributes(
+                'FMLCorePlugin'              : 'com.blackkriger.equivalentincrease.Plugin',
+                'FMLCorePluginContainsFMLMod': 'true'
+        )
+    }
+}

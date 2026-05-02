@@ -1,0 +1,12 @@
+[
+  {
+    "modid": "equivalentincrease",
+    "name": "Equivalent Increase",
+    "version": "1.0",
+    "mcversion": "1.7.10",
+    "authorList": ["blackkriger"],
+    "description": "A small addon for EquivalentEnergistics that adds a routing toggle to the alchemical tome",
+    "url": "https://github.com/blackkriger/EquivalentIncrease",
+    "credits": "EquivalentEnergistics by Mordenkainen"
+  }
+]
