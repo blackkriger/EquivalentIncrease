@@ -11,3 +11,7 @@ A small addon for Equivalent Energistics that adds a routing toggle to the alche
 2. Right-click the bound tome — flips the routing mode 
 
 When the tome's mode is **Balance**, every EMC Condenser connected to that book credits its produced EMC directly to your balance. 
+
+## Dependencies required: 
+
+[Equivalent Energistics](https://www.curseforge.com/minecraft/mc-mods/equivalent-energistics), [Applied Energistics 2](https://www.curseforge.com/minecraft/mc-mods/applied-energistics-2) or [GTNH version](https://github.com/GTNewHorizons/Applied-Energistics-2-Unofficial), [FMProjectE](https://www.curseforge.com/minecraft/mc-mods/fmprojecte-fmpe) 
