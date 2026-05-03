@@ -4,7 +4,7 @@ plugins {
 }
 
 group = 'com.blackkriger'
-version = '1.0'
+version = '1.1'
 archivesBaseName = 'EquivalentIncrease'
 
 java {
@@ -32,7 +32,7 @@ dependencies {
     // The output jar gets reobfuscated back to SRG by the `reobfJar` task that
     // RFG wires into the standard `build` lifecycle.
     compileOnly rfg.deobf(files('libs/EquivalentEnergistics-1.7.10-0.8.3.jar'))
-    compileOnly rfg.deobf(files('libs/FMProjectE-2.2.0.jar'))
+    compileOnly files('libs/FMProjectE-2.3.1-dev.jar')
     // AE2 and Waila built from source (rv3-beta-922-GTNH, waila-1.19.24); -dev.jar is MCP-mapped, no rfg.deobf needed.
     compileOnly files('libs/appliedenergistics2-rv3-beta-922-GTNH-dev.jar')
     compileOnly files('libs/Waila-1.19.24-dev.jar')

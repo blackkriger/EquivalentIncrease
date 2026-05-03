@@ -159,8 +159,12 @@ public final class EmcRouter {
             EntityPlayerMP player = findOnlinePlayer(uuid);
             if (player != null && player.openContainer instanceof TransmutationContainer) {
                 TransmutationContainer tc = (TransmutationContainer) player.openContainer;
-                tc.transmutationInventory.emc += amount;
-                EiNetwork.sendEmcLive(player, tc.transmutationInventory.emc);
+                EmcSyncBypass.fromCondenser = true;
+                try {
+                    tc.transmutationInventory.addEmc(amount);
+                } finally {
+                    EmcSyncBypass.fromCondenser = false;
+                }
                 if (trace) System.out.println(LOG + "  applyEmcToPlayer (GUI open) ok: " + uuid
                         + " inv.emc → " + tc.transmutationInventory.emc);
                 return true;

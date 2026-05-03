@@ -22,6 +22,8 @@ public class Transformer implements IClassTransformer {
             "com.mordenkainen.equivalentenergistics.blocks.condenser.tiles.TileEMCCondenserBase";
     private static final String EE_PROJECTE_INTEGRATION_TARGET =
             "com.mordenkainen.equivalentenergistics.integration.projecte.ProjectE";
+    private static final String EMC_SYNC_THROTTLER_TARGET =
+            "moze_intel.projecte.handlers.EmcSyncThrottler";
 
     private static final String EMC_ROUTER_INTERNAL = "com/blackkriger/equivalentincrease/EmcRouter";
     private static final String IEMC_STORAGE_GRID_INTERNAL =
@@ -47,7 +49,55 @@ public class Transformer implements IClassTransformer {
         if (EE_PROJECTE_INTEGRATION_TARGET.equals(transformedName)) {
             return patchEEProjectEGetValueLong(basicClass);
         }
+        if (EMC_SYNC_THROTTLER_TARGET.equals(transformedName)) {
+            return patchEmcSyncThrottlerNoDelay(basicClass);
+        }
         return basicClass;
+    }
+
+    private byte[] patchEmcSyncThrottlerNoDelay(byte[] classBytes) {
+        try {
+            ClassReader cr = new ClassReader(classBytes);
+            ClassNode cn = new ClassNode();
+            cr.accept(cn, 0);
+
+            int patched = 0;
+            for (Object o : cn.methods) {
+                MethodNode mn = (MethodNode) o;
+                if (!"requestSync".equals(mn.name)
+                        || !"(Lnet/minecraft/entity/player/EntityPlayerMP;D)V".equals(mn.desc)) {
+                    continue;
+                }
+                LabelNode skipReturn = new LabelNode();
+                InsnList prologue = new InsnList();
+                prologue.add(new VarInsnNode(Opcodes.ALOAD, 0));
+                prologue.add(new VarInsnNode(Opcodes.DLOAD, 1));
+                prologue.add(new MethodInsnNode(Opcodes.INVOKESTATIC,
+                        "com/blackkriger/equivalentincrease/EmcSyncBypass",
+                        "tryImmediate",
+                        "(Lnet/minecraft/entity/player/EntityPlayerMP;D)Z",
+                        false));
+                prologue.add(new JumpInsnNode(Opcodes.IFEQ, skipReturn));
+                prologue.add(new InsnNode(Opcodes.RETURN));
+                prologue.add(skipReturn);
+                mn.instructions.insert(prologue);
+                patched++;
+            }
+
+            if (patched == 0) {
+                System.err.println("[EquivalentIncrease] WARN: EmcSyncThrottler.requestSync not found — throttle bypass disabled");
+                return classBytes;
+            }
+            System.out.println("[EquivalentIncrease] EmcSyncThrottler.requestSync: bypass-check prepended (toggleable via config/equivalentincrease.cfg → bypassEMCdebounce)");
+
+            ClassWriter cw = new ClassWriter(ClassWriter.COMPUTE_MAXS | ClassWriter.COMPUTE_FRAMES);
+            cn.accept(cw);
+            return cw.toByteArray();
+        } catch (Throwable t) {
+            System.err.println("[EquivalentIncrease] EmcSyncThrottler patch failed: " + t);
+            t.printStackTrace();
+            return classBytes;
+        }
     }
 
     private byte[] patchItemEMCBookRightClick(byte[] classBytes) {

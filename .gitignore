@@ -25,9 +25,6 @@ bin/
 .DS_Store
 Thumbs.db
 
-# Local properties 
+# Local properties
 local.properties
 gradle-local.properties
-
-# Third-party mod jars used as compile-time deps
-libs/*.jar
