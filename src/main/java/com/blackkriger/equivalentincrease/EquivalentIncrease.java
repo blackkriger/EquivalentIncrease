@@ -19,7 +19,7 @@ import net.minecraftforge.event.entity.player.ItemTooltipEvent;
 @Mod(
         modid = EquivalentIncrease.MODID,
         name = "Equivalent Increase",
-        version = "1.1",
+        version = "1.2",
         dependencies = "required-after:equivalentenergistics;required-after:ProjectE",
         acceptableRemoteVersions = "*"
 )
@@ -34,11 +34,8 @@ public class EquivalentIncrease {
         Configuration cfg = new Configuration(event.getSuggestedConfigurationFile());
         cfg.load();
         EmcSyncBypass.enabled = cfg.getBoolean(
-                "bypassEMCdebounce", "general", false,
-                "When true, EI intercepts FMPE EmcSyncThrottler.requestSync and sends the EMC update packet to the client immediately, instead of waiting for the throttler's 10-tick (0.5s) debounce. Affects all EMC changes.");
-        EmcSyncBypass.exceptCondenser = cfg.getBoolean(
-                "bypassEMCdebounceExceptCondenser", "general", true,
-                "When true, EI bypasses the debounce for all EMC changes EXCEPT condenser routing.");
+                "bypassEMCdebounce", "general", true,
+                "When true, non-condenser EMC changes (transmutation crafts, learning items, etc.) bypass FMPE's EmcSyncThrottler debounce and update the GUI instantly. Condenser routing always goes through the debounce for stability.");
         if (cfg.hasChanged()) cfg.save();
     }
 
