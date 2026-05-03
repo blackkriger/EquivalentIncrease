@@ -35,10 +35,10 @@ public class EquivalentIncrease {
         cfg.load();
         EmcSyncBypass.enabled = cfg.getBoolean(
                 "bypassEMCdebounce", "general", false,
-                "When true, EI intercepts FMPE EmcSyncThrottler.requestSync and sends the EMC update packet to the client immediately, instead of waiting for the throttler's 10-tick (0.5s) debounce. Affects all EMC changes. Default = false");
+                "When true, EI intercepts FMPE EmcSyncThrottler.requestSync and sends the EMC update packet to the client immediately, instead of waiting for the throttler's 10-tick (0.5s) debounce. Affects all EMC changes.");
         EmcSyncBypass.exceptCondenser = cfg.getBoolean(
                 "bypassEMCdebounceExceptCondenser", "general", true,
-                "When true, EI bypasses the debounce for all EMC changes EXCEPT condenser routing. Default = true");
+                "When true, EI bypasses the debounce for all EMC changes EXCEPT condenser routing.");
         if (cfg.hasChanged()) cfg.save();
     }
 
