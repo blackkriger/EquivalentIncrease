@@ -1,6 +1,6 @@
 # Equivalent Increase
 
-A small addon for Equivalent Energistics that adds a routing toggle to the alchemical tome. EMC Condensers normally deposit produced EMC into the AE2 network's EMC pool. This addon adds a per-tome flip switch with two modes:
+A small addon for Equivalent Energistics that adds a routing(with toggle) to the alchemical tome. EMC Condensers normally deposit produced EMC into the AE2 network's EMC pool. This addon adds a per-tome flip switch with two modes:
 
 - **AE2 Storage** — default mode, condensers deposit EMC into the network's EMC pool; 
 - **Player Balance** — condensers credit produced EMC directly to the bound tome owner's balance. 
